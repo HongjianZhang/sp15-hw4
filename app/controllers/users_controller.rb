@@ -14,12 +14,27 @@ class UsersController < ApplicationController
     if @user.save #If saving the user was successful
       redirect_to @user #Go to the show view of the user
     else
+      flash[:error] = @user.error.full_messages
       render "new" #Go to the new view for the user
     end
   end
 
+  def edit
+    @user = User.find(params[:id])
+  end
+
   def show
     @user = User.find(params[:id]) # Query for the user with the id that is in params
+  end
+
+  def update
+    user = User.find(params[:id])
+    user.update(user_params)
+  end
+
+  def destroy
+    user = User.find(params[:id])
+    user.destroy
   end
 
   private
